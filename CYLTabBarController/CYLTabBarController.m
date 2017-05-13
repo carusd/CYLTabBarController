@@ -69,12 +69,20 @@ static void * const CYLSwappableImageViewDefaultOffsetContext = (void*)&CYLSwapp
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    UIViewController *controller = self.selectedViewController;
-    if ([controller isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *navigationController = (UINavigationController *)controller;
-        return navigationController.topViewController.supportedInterfaceOrientations;
+    if (self.presentedViewController) {
+        return self.presentedViewController.supportedInterfaceOrientations;
     } else {
-        return controller.supportedInterfaceOrientations;
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    
+    
+}
+- (BOOL)shouldAutorotate {
+    
+    if (self.presentedViewController) {
+        return self.presentedViewController.shouldAutorotate;
+    } else {
+        return YES;
     }
 }
 
